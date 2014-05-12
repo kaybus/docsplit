@@ -11,7 +11,20 @@ module Docsplit
     end
     def osx?
       !!HOST_OS.match(/darwin/i)
-    end
+    endpath = File.join(File.dirname(__FILE__), "..")
+God.watch do |p|
+  p.name = "wfe"
+  p.dir = "#{path}"
+  p.env = { 'PATH' => "/usr/lib/jvm/java-1.7.0-openjdk-amd64/bin:/usr/local/rbenv/shims:/usr/local/rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/www/hadoop-1.1.2/bin:/home/www/pig-0.11.1/bin",
+            'JAVA_HOME' => "/usr/lib/jvm/java-1.7.0-openjdk-amd64",
+            'RAILS_ENV' => "test_cluster",
+            'DOCSPLIT_PATH' => "/usr/local/bin/docsplit" }
+  p.start = "nice -n 10 java -jar kb-wfe-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
+  p.group = "wfe-app"
+  p.log = "/tmp/wfe_log.log"
+  p.keepalive
+end
+
     def linux?
       !!HOST_OS.match(/linux/i)
     end
@@ -19,7 +32,7 @@ module Docsplit
     # The first line of the help output holds the name and version number
     # of the office software to be used for extraction.
     def version_string
-        versionstr =  `#{office_executable} -h 2>&1`.split("\n").first
+        versionstr =  `#{office_executable} --headless -h 2>&1`.split("\n").first
         if !!versionstr.match(/[0-9]*/)
                 versionstr =  `#{office_executable} --version`.split("\n").first
         end
