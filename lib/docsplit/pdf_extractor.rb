@@ -11,20 +11,7 @@ module Docsplit
     end
     def osx?
       !!HOST_OS.match(/darwin/i)
-    endpath = File.join(File.dirname(__FILE__), "..")
-God.watch do |p|
-  p.name = "wfe"
-  p.dir = "#{path}"
-  p.env = { 'PATH' => "/usr/lib/jvm/java-1.7.0-openjdk-amd64/bin:/usr/local/rbenv/shims:/usr/local/rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/www/hadoop-1.1.2/bin:/home/www/pig-0.11.1/bin",
-            'JAVA_HOME' => "/usr/lib/jvm/java-1.7.0-openjdk-amd64",
-            'RAILS_ENV' => "test_cluster",
-            'DOCSPLIT_PATH' => "/usr/local/bin/docsplit" }
-  p.start = "nice -n 10 java -jar kb-wfe-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
-  p.group = "wfe-app"
-  p.log = "/tmp/wfe_log.log"
-  p.keepalive
-end
-
+	end
     def linux?
       !!HOST_OS.match(/linux/i)
     end
